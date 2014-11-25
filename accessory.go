@@ -43,6 +43,9 @@ func (c *Context) SwitchToAccessoryMode(manufacturer, model, description, versio
 	if err != nil {
 		return err
 	}
+	if len(devs) == 0 {
+		return errors.New("accessory: no candidate found")
+	}
 
 	for _, d := range devs {
 		defer d.Close()
