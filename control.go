@@ -6,7 +6,7 @@ import (
 
 func getProtocol(dev *usb.Device) (uint16, error) {
 	if dev == nil {
-		return 0, ErrorNoAccesoryDevice
+		return 0, ErrorNoAccessoryDevice
 	}
 
 	var data = make([]byte, 2)
@@ -18,22 +18,22 @@ func getProtocol(dev *usb.Device) (uint16, error) {
 		return 0, ErrorFailedToGetProtocol
 	}
 
-	return (data[0]<<8 | data[1]), nil
+	return (uint16(data[0])<<8 | uint16(data[1])), nil
 }
 
-func sendString(dev *usb.Device, idx, uint16, str string) error {
+func sendString(dev *usb.Device, idx uint16, str string) error {
 	if dev == nil {
-		return ErrorNoAccesoryDevice
+		return ErrorNoAccessoryDevice
 	}
 
-	data := []byte(str + '\x00')
+	data := []byte(str + "\x00")
 	_, err := dev.Control(RTYPE_OUT, SEND_STRING, 0, idx, data)
 	return err
 }
 
 func start(dev *usb.Device) error {
 	if dev == nil {
-		return ErrorNoAccesoryDevice
+		return ErrorNoAccessoryDevice
 	}
 
 	_, err := dev.Control(RTYPE_OUT, START, 0, 0, nil)

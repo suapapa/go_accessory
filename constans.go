@@ -44,7 +44,7 @@ const (
 )
 
 // errors
-const (
+var (
 	ErrorNoAccessoryDevice   error = errors.New("No accessory device")
 	ErrorFailedToGetProtocol       = errors.New("Failed to get protocol")
 )
