@@ -2,6 +2,7 @@ package accessory
 
 import (
 	"errors"
+	"time"
 
 	"github.com/kylelemons/gousb/usb"
 )
@@ -26,7 +27,7 @@ func (c *Context) Close() {
 	c.ctx.Close()
 }
 
-func (c *Context) switchToAccessoryMode(manufacturer, model, description, version, uri, serial string) error {
+func (c *Context) SwitchToAccessoryMode(manufacturer, model, description, version, uri, serial string) error {
 	if c.device != nil {
 		return errors.New("accessory: already has device")
 	}
@@ -65,6 +66,8 @@ func (c *Context) switchToAccessoryMode(manufacturer, model, description, versio
 		}
 	}
 
+	time.Sleep(1 * time.Second)
+
 	devs, err = c.ctx.ListDevices(func(desc *usb.Descriptor) bool {
 		if desc.Vendor == USB_VENDOR_ID {
 			switch desc.Product {
@@ -75,7 +78,10 @@ func (c *Context) switchToAccessoryMode(manufacturer, model, description, versio
 		return false
 	})
 
-	if err != nil || len(devs) == 0 {
+	if err != nil {
+		return err
+	}
+	if len(devs) == 0 {
 		return errors.New("accessory: failed to switch to accessory")
 	}
 

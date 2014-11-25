@@ -18,7 +18,7 @@ func getProtocol(dev *usb.Device) (uint16, error) {
 		return 0, ErrorFailedToGetProtocol
 	}
 
-	return (uint16(data[0])<<8 | uint16(data[1])), nil
+	return (uint16(data[1])<<8 | uint16(data[0])), nil
 }
 
 func sendString(dev *usb.Device, idx uint16, str string) error {
