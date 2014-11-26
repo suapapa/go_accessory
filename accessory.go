@@ -11,6 +11,8 @@ type Context struct {
 	ctx    *usb.Context
 	device *usb.Device
 
+	epIn, epOut usb.Endpoint
+
 	Protocol uint16
 }
 
@@ -96,6 +98,15 @@ func (c *Context) SwitchToAccessoryMode(manufacturer, model, description, versio
 	}
 
 	c.device = devs[0]
+
+	c.epIn, err = c.device.OpenEndpoint(1, 0, 0, 1|uint8(usb.ENDPOINT_DIR_IN))
+	if err != nil {
+		return err
+	}
+	c.epOut, err = c.device.OpenEndpoint(1, 0, 0, 2|uint8(usb.ENDPOINT_DIR_OUT))
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
