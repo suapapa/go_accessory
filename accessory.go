@@ -111,6 +111,22 @@ func (c *Context) SwitchToAccessoryMode(manufacturer, model, description, versio
 	return nil
 }
 
+func (c *Context) Read(b []byte) (int, error) {
+	if c.device == nil {
+		return -1, errors.New("accessory: no accessory")
+	}
+
+	return c.epIn.Read(b)
+}
+
+func (c *Context) Write(b []byte) (int, error) {
+	if c.device == nil {
+		return -1, errors.New("accessory: no accessory")
+	}
+
+	return c.epOut.Write(b)
+}
+
 func listAccessoryDevice(desc *usb.Descriptor) bool {
 	if desc.Vendor == USB_VENDOR_ID {
 		switch desc.Product {

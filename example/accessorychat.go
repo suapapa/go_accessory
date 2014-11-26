@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fmt"
+	"io"
+	"os"
 
 	"github.com/suapapa/go_accessory"
 )
@@ -20,5 +21,6 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("now check vid:pid")
+	go io.Copy(os.Stdout, a)
+	io.Copy(a, os.Stdin)
 }
