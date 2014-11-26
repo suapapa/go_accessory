@@ -128,13 +128,3 @@ func (c *Context) Write(b []byte) (int, error) {
 
 	return c.epOut.Write(b)
 }
-
-func listAccessoryDevice(desc *usb.Descriptor) bool {
-	if desc.Vendor == USB_VENDOR_ID {
-		switch desc.Product {
-		case USB_PRODUCT_ID, USB_ADB_PRODUCT_ID:
-			return true
-		}
-	}
-	return false
-}
