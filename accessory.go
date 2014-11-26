@@ -98,6 +98,8 @@ func (c *Context) SwitchToAccessoryMode(manufacturer, model, description, versio
 	}
 
 	c.device = devs[0]
+	c.device.ReadTimeout = 0
+	c.device.WriteTimeout = 0
 
 	c.epIn, err = c.device.OpenEndpoint(1, 0, 0, 1|uint8(usb.ENDPOINT_DIR_IN))
 	if err != nil {

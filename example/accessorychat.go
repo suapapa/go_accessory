@@ -21,6 +21,13 @@ func main() {
 		panic(err)
 	}
 
-	go io.Copy(os.Stdout, a)
-	io.Copy(a, os.Stdin)
+	_, err = io.Copy(os.Stdout, a)
+	if err != nil {
+		panic(err)
+	}
+
+	// _, err = io.Copy(a, os.Stdin)
+	// if err != nil {
+	// 	panic(err)
+	// }
 }
